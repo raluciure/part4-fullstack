@@ -95,7 +95,7 @@ test.only("a new blogpost is successfully created", async () => {
     await api
         .post("/api/blogs")
         .send(newBlog)
-        .expect(200)
+        .expect(201)
         .expect("Content-Type", /application\/json/)
 
     const response = await api.get("/api/blogs")
@@ -103,4 +103,53 @@ test.only("a new blogpost is successfully created", async () => {
 
     assert.strictEqual(response.body.length, blogs.length + 1)
     assert.ok(blogTitle.includes("Blogpost Test Created"))
+});
+
+test.only("if likes property is missing from the request, defaults to the value 0", async () => {
+    const newBlog = {
+        author: "Anne White",
+        title: "Blogpost Test Created",
+        url: "https://www.test.com",
+    };
+
+    await api
+        .post("/api/blogs")
+        .send(newBlog)
+        .expect(201)
+        .expect("Content-Type", /application\/json/);
+
+    const response = await api.get("/api/blogs");
+    const latestBlog = response.body.reverse()[0];
+
+    assert.strictEqual(latestBlog.likes, 0);
+});
+
+test("if title is missing, it responds with 400 Bad Request ", async () => {
+    const newBlog = {
+        author: "Anne White",
+        url: "https://www.test.com",
+        likes: 3
+    };
+
+    await api
+        .post("/api/blogs")
+        .send(newBlog)
+        .expect(400)
+});
+
+test("if url is missing, it responds with 400 Bad Request", async () => {
+    const newBlog = {
+        author: "Anne White",
+        title: "Blogpost Test Created",
+        likes: 3
+    };
+
+    await api
+        .post("/api/blogs")
+        .send(newBlog)
+        .expect(400)
+});
+
+after(async () => {
+    await mongoose.connection.close();
 });
