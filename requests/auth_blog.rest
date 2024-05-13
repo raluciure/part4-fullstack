@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjY2NDI5MDdlNTcxZjI2MjkyZTIxMTA0NiIsImlhdCI6MTcxNTYzODU1MSwiZXhwIjoxNzE1NjQyMTUxfQ.DaYVsgK74BjVApuQDcIiljfsQlNYQ7uBmN0zeSvPJ1A
+
+{
+    "title": "Title created with authorization refactored2",
+    "author": "Authorization R Author",
+    "url": "testreffactor.authorization",
+    "likes": 10
+}
